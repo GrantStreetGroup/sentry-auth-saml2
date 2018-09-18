@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+import logging
+
 from django import forms
 from django.forms.util import ErrorList
 from django.utils.encoding import force_text
@@ -8,6 +10,7 @@ from onelogin.saml2.idp_metadata_parser import OneLogin_Saml2_IdPMetadataParser
 
 from sentry.http import safe_urlopen
 
+logger = logging.getLogger('sentry_auth_saml2')
 
 def extract_idp_data_from_parsed_data(data):
     """
@@ -31,6 +34,7 @@ def extract_idp_data_from_parsed_data(data):
 def process_url(form):
     url = form.cleaned_data['metadata_url']
     response = safe_urlopen(url)
+    logger.debug(response.content)
     data = OneLogin_Saml2_IdPMetadataParser.parse(response.content)
     return extract_idp_data_from_parsed_data(data)
 
