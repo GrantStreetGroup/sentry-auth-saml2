@@ -6,7 +6,7 @@ from sentry_auth_saml2.forms import URLMetadataForm
 
 
 SelectIdP = make_simple_setup(
-    URLMetadataForm,
+    XMLMetadataForm,
     'sentry_auth_okta/select-idp.html',
 )
 
